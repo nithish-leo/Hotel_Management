@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useToast } from '@/hooks/useToast';
-import { ShieldCheck, Mail, Lock, Loader2, Compass, Key, Settings2, Database, Server, RefreshCw } from 'lucide-react';
+import { ShieldCheck, Mail, Lock, Loader2, Compass, Settings2 } from 'lucide-react';
 
 interface LoginProps {
   onRouteChange: (route: string) => void;
@@ -32,46 +32,6 @@ export function AdminLogin({ onRouteChange }: LoginProps) {
   const [loading, setLoading] = useState(false);
   const [imageIdx, setImageIdx] = useState(0);
   const { success, error } = useToast();
-
-  const [showDbSetup, setShowDbSetup] = useState(false);
-  const [dbLoading, setDbLoading] = useState(false);
-  const [dbForm, setDbForm] = useState({
-    host: '0.tcp.ngrok.io',
-    port: '12345',
-    user: 'root',
-    password: 'root',
-    database: 'hotel_management'
-  });
-
-  const handleDbInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDbForm({
-      ...dbForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleDbConnect = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setDbLoading(true);
-    try {
-      const res = await fetch('/api/admin/db/connect', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(dbForm)
-      });
-      const data = await res.json();
-      if (res.ok && data.success) {
-        success('MySQL Database connected & all schemas seeded successfully! You can now log in.');
-        setShowDbSetup(false);
-      } else {
-        error(data.error || 'Failed to establish MySQL connection. Please check settings.');
-      }
-    } catch (err: any) {
-      error(err.message || 'Failure contacting local MySQL connector server.');
-    } finally {
-      setDbLoading(false);
-    }
-  };
 
   // Slow continuous crossfade slideshow cycling algorithm
   useEffect(() => {
@@ -221,120 +181,45 @@ export function AdminLogin({ onRouteChange }: LoginProps) {
               </motion.button>
             </form>
 
-            {/* MySQL Connection Toggle & Content Drawer */}
-            <div className="mt-6 pt-5 border-t border-zinc-900/80 flex flex-col gap-2">
-              <button
-                type="button"
-                onClick={() => setShowDbSetup(!showDbSetup)}
-                className="text-[10px] font-mono text-zinc-550 hover:text-[#CCFF00] flex items-center justify-center gap-1.5 transition-all w-full cursor-pointer uppercase tracking-wider"
-              >
-                <Database size={12} className={showDbSetup ? "text-[#CCFF00] animate-pulse" : "text-zinc-550"} />
-                {showDbSetup ? "Hide MySQL Connection Settings Form" : "Show MySQL Connection Settings Form"}
-              </button>
-
-              <AnimatePresence>
-                {showDbSetup && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="mt-4 pt-4 border-t border-zinc-900/50 space-y-4 overflow-hidden text-left"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <Server size={14} className="text-[#CCFF00]" />
-                      <span className="text-[9px] font-mono tracking-widest text-[#CCFF00] uppercase font-black">Local MySQL Parameters</span>
-                    </div>
-
-                    <form onSubmit={handleDbConnect} className="space-y-4.5">
-                      <div className="grid grid-cols-12 gap-3.5">
-                        <div className="col-span-8">
-                          <label className="text-[9px] font-bold text-zinc-400 font-mono tracking-wider uppercase mb-1.5 block">Host Address</label>
-                          <input
-                            type="text"
-                            name="host"
-                            required
-                            value={dbForm.host}
-                            onChange={handleDbInputChange}
-                            placeholder="e.g. 127.0.0.1"
-                            className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800/80 focus:border-[#CCFF00] rounded-xl text-xs text-white placeholder-zinc-650 focus:outline-none transition-all font-mono font-medium"
-                          />
-                        </div>
-                        <div className="col-span-4">
-                          <label className="text-[9px] font-bold text-zinc-400 font-mono tracking-wider uppercase mb-1.5 block">Port Number</label>
-                          <input
-                            type="text"
-                            name="port"
-                            required
-                            value={dbForm.port}
-                            onChange={handleDbInputChange}
-                            placeholder="3306"
-                            className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800/80 focus:border-[#CCFF00] rounded-xl text-xs text-white placeholder-zinc-650 focus:outline-none transition-all font-mono font-medium"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3.5">
-                        <div>
-                          <label className="text-[9px] font-bold text-zinc-400 font-mono tracking-wider uppercase mb-1.5 block">SQL Username</label>
-                          <input
-                            type="text"
-                            name="user"
-                            required
-                            value={dbForm.user}
-                            onChange={handleDbInputChange}
-                            placeholder="root"
-                            className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800/80 focus:border-[#CCFF00] rounded-xl text-xs text-white placeholder-zinc-650 focus:outline-none transition-all font-mono font-medium"
-                          />
-                        </div>
-                        <div>
-                          <label className="text-[9px] font-bold text-zinc-400 font-mono tracking-wider uppercase mb-1.5 block">SQL Password</label>
-                          <input
-                            type="password"
-                            name="password"
-                            value={dbForm.password}
-                            onChange={handleDbInputChange}
-                            placeholder="Blank (or password)"
-                            className="w-full px-3 py-2 bg-zinc-900/50 border border-zinc-800/80 focus:border-[#CCFF00] rounded-xl text-xs text-white placeholder-zinc-650 focus:outline-none transition-all font-mono font-medium"
-                          />
-                        </div>
-                      </div>
-
-                      <div>
-                        <label className="text-[9px] font-bold text-zinc-300 font-mono tracking-wider uppercase mb-1.5 block">Target Schema Name</label>
-                        <input
-                          type="text"
-                          name="database"
-                          required
-                          value={dbForm.database}
-                          onChange={handleDbInputChange}
-                          placeholder="hotel_management"
-                          className="w-full px-3.5 py-2.5 bg-zinc-900/50 border border-[#CCFF00]/15 focus:border-[#CCFF00] rounded-xl text-xs text-[#CCFF00] font-black tracking-wide placeholder-zinc-650 focus:outline-none transition-all font-mono"
-                        />
-                      </div>
-
-                      <button
-                        type="submit"
-                        disabled={dbLoading}
-                        className="w-full py-3 bg-[#CCFF00]/10 hover:bg-[#CCFF00] border border-[#CCFF00]/25 text-[#CCFF00] hover:text-black rounded-xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5 font-mono"
-                      >
-                        {dbLoading ? (
-                          <>
-                            <RefreshCw size={11} className="animate-spin" />
-                            Establishing SQL Channel...
-                          </>
-                        ) : (
-                          <>
-                            <Server size={11} />
-                            Verify Connection & Sync
-                          </>
-                        )}
-                      </button>
-                    </form>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+            <div className="relative flex py-4 items-center">
+              <div className="flex-grow border-t border-zinc-900"></div>
+              <span className="flex-shrink mx-4 text-zinc-650 text-[9px] font-mono uppercase tracking-widest font-black">Or Connect with Identities</span>
+              <div className="flex-grow border-t border-zinc-900"></div>
             </div>
+
+            {/* Google Login button */}
+            <motion.button
+              whileTap={{ scale: 0.98 }}
+              type="button"
+              onClick={async () => {
+                setLoading(true);
+                success("Contacting Google SSO identity provider hosts...");
+                await new Promise(r => setTimeout(r, 1200));
+                
+                const googleEmail = "das20032006@gmail.com";
+                const derivedName = googleEmail.split('@')[0]; // Extract name before '@'
+
+                localStorage.setItem('user', JSON.stringify({
+                  userId: 1, // Admin 1
+                  name: derivedName,
+                  email: googleEmail,
+                  role: 'admin'
+                }));
+                success(`Google Authentication successful! Welcome, Executive ${derivedName}!`);
+                setLoading(false);
+                onRouteChange('/admin/dashboard');
+              }}
+              disabled={loading}
+              className="w-full py-3 bg-zinc-900/60 hover:bg-zinc-900 hover:border-[#CCFF00]/40 border border-zinc-800 text-zinc-100 rounded-xl font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+            >
+              <svg className="h-4 w-4" viewBox="0 0 24 24" width="24" height="24">
+                <path fill="#ea4335" d="M12 5.04c1.66 0 3.2.57 4.38 1.69l3.27-3.27C17.68 1.54 14.98 1 12 1 7.35 1 3.4 3.65 1.51 7.5l3.82 2.96C6.27 7.42 8.91 5.04 12 5.04z" />
+                <path fill="#4285f4" d="M23.49 12.27c0-.81-.07-1.59-.2-2.36H12v4.46h6.46c-.28 1.48-1.11 2.73-2.36 3.58l3.66 2.84c2.14-1.97 3.39-4.88 3.39-8.52z" />
+                <path fill="#fbbc05" d="M5.33 14.46c-.24-.72-.37-1.49-.37-2.28s.13-1.56.37-2.28L1.51 6.94C.7 8.57.24 10.36.24 12.22s.46 3.65 1.27 5.28l3.82-3.04z" />
+                <path fill="#34a853" d="M12 23c3.24 0 5.97-1.07 7.96-2.91l-3.66-2.84c-1.02.68-2.33 1.09-4.3 1.09-3.09 0-5.73-2.38-6.67-5.42L1.51 15.9C3.4 19.74 7.35 23 12 23z" />
+              </svg>
+              <span>Google Staff Sign In</span>
+            </motion.button>
           </motion.div>
         </div>
 

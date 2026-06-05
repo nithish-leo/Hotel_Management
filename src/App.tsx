@@ -12,7 +12,6 @@ import { AdminBookings } from '@/pages/admin/AdminBookings';
 import { AdminPayments } from '@/pages/admin/AdminPayments';
 import { AdminEmployees } from '@/pages/admin/AdminEmployees';
 import { AdminServices } from '@/pages/admin/AdminServices';
-import { AdminDatabase } from '@/pages/admin/AdminDatabase';
 
 import { CustomerLogin } from '@/pages/customer/CustomerLogin';
 import { CustomerRegister } from '@/pages/customer/CustomerRegister';
@@ -79,8 +78,6 @@ export default function App() {
         return <AdminEmployees />;
       case '/admin/services':
         return <AdminServices />;
-      case '/admin/database':
-        return <AdminDatabase />;
 
       // Resident Access Segment
       case '/customer/login':

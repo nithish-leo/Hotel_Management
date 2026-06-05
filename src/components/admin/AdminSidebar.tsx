@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import {
   LayoutDashboard, BedDouble, Tag, CalendarCheck,
-  CreditCard, Users, Sparkles, LogOut, Database
+  CreditCard, Users, Sparkles, LogOut
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -17,7 +17,6 @@ const links = [
   { id: 'admin-payments', href: '/admin/payments', icon: CreditCard, label: 'Payments' },
   { id: 'admin-employees', href: '/admin/employees', icon: Users, label: 'Employees' },
   { id: 'admin-services', href: '/admin/services', icon: Sparkles, label: 'Services' },
-  { id: 'admin-database', href: '/admin/database', icon: Database, label: 'MySQL Setup' },
 ];
 
 export function AdminSidebar({ currentRoute, onRouteChange }: SidebarProps) {

@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import dotenv from "dotenv";
-import pool, { getDbStatus, initializeMySQL } from "./lib/db.js";
+import pool from "./lib/db.js";
 import { GoogleGenAI } from "@google/genai";
 import nodemailer from "nodemailer";
 import { sendBookingConfirmationEmail } from "./lib/emailSender.js";
@@ -89,37 +89,6 @@ app.post("/api/auth/register", async (req: Request, res: Response) => {
 // ==================================================
 // ADMIN API ROUTES
 // ==================================================
-
-app.get("/api/admin/db/status", async (req: Request, res: Response) => {
-  try {
-    return res.json(getDbStatus());
-  } catch (err: any) {
-    return res.status(500).json({ error: err.message || "Failed to fetch DB status" });
-  }
-});
-
-app.post("/api/admin/db/connect", async (req: Request, res: Response) => {
-  try {
-    const { host, port, user, password, database } = req.body;
-    if (!host || !user || !database) {
-      return res.status(400).json({ error: "Missing required MySQL connection details (Host, User, and Database are mandatory)." });
-    }
-    const result = await initializeMySQL({
-      host,
-      port: Number(port) || 3306,
-      user,
-      password: password || "",
-      database
-    });
-    if (result.success) {
-      return res.json(result);
-    } else {
-      return res.status(400).json(result);
-    }
-  } catch (err: any) {
-    return res.status(500).json({ error: err.message || "Failed to initialize MySQL database" });
-  }
-});
 
 app.get("/api/admin/stats", async (req: Request, res: Response) => {
   try {
