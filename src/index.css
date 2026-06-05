@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;605;600;700;800&family=Syne:wght@700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Space Grotesk", "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Syne", "Space Grotesk", sans-serif;
+  --font-mono: "Fira Code", ui-monospace, monospace;
+  
+  --color-brand: #CCFF00;
+  --color-neon: #CCFF00;
+}
+
+/* Base resets & fine details */
+body {
+  @apply bg-[#0A0A0A] text-white;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom text stroke effect */
+.stroke-text {
+  -webkit-text-stroke: 1.5px white;
+  color: transparent;
+}
+
+.stroke-text-brand {
+  -webkit-text-stroke: 1.5px #CCFF00;
+  color: transparent;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-zinc-800 hover:bg-zinc-700 rounded-full transition-colors;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+}
+
+/* ==========================================================
+   GLOBAL HIGH-CONTRAST BOLD CUSTOM STYLINGS OVERRIDES 
+   ========================================================== */
+
+/* Page content background skins */
+.ml-64 {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+}
+
+div[class*="min-h-screen"][class*="bg-slate-50"] {
+  background-color: #0A0A0A !important;
+  color: #FFFFFF !important;
+}
+
+/* Override background utility variants robustly using substring selectors */
+div[class*="bg-slate-"],
+div[class*="bg-zinc-"],
+div[class*="bg-amber-"],
+div[class*="bg-indigo-"],
+div[class*="bg-emerald-"],
+div[class*="bg-[#0a1f44]"],
+section[class*="bg-slate-"],
+section[class*="bg-zinc-"],
+section[class*="bg-[#0a1f44]"] {
+  background-color: #0C0C0C !important;
+  color: #FFFFFF !important;
+}
+
+.bg-white {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border-color: #1a1a1a !important;
+}
+
+/* Card wrappers, borders and grids upgrades with wildcard selectors */
+[class*="border-slate-"], 
+[class*="border-zinc-"], 
+[class*="border-white/"],
+[class*="border-amber-"],
+[class*="border-indigo-"] {
+  border-color: #1F1F1F !important;
+}
+
+/* Typography styles to crisp bold & Syne (High Contrast Core) */
+.text-slate-700,
+.text-zinc-700,
+.text-slate-800,
+.text-slate-850,
+.text-zinc-800,
+.text-slate-900,
+.text-zinc-900,
+.text-\[\#0a1f44\],
+[class*="text-[#0a1f44]"],
+[class*="text-[#0A1F44]"] {
+  color: #FFFFFF !important;
+}
+
+.text-slate-400,
+.text-zinc-400,
+.text-slate-500,
+.text-zinc-550,
+.text-zinc-500,
+.text-slate-600,
+.text-zinc-600 {
+  color: #BFBFC5 !important; /* Elegant zinc-300 light gray helper text */
+}
+
+/* Heading font applications */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display) !important;
+  text-transform: uppercase !important;
+  font-weight: 800 !important;
+}
+
+/* Correcting primary color conversions (Gold/Amber -> Solid Neon #CCFF00) */
+.text-\[\#c9a84c\],
+[class*="text-[#c9a84c]"],
+[class*="text-[#e3bf5d]"],
+.text-amber-500,
+.text-amber-600,
+.text-amber-700,
+.text-amber-800,
+.text-amber-900,
+.text-amber-100, 
+.text-amber-200, 
+.text-amber-300, 
+.text-amber-350 {
+  color: #CCFF00 !important;
+}
+
+/* High Contrast Accessibility & Readability Overrides for Neon/Glow/Blur Styles */
+.text-\[\#CCFF00\],
+.text-\[\#ccff00\],
+[class*="text-[#CCFF00]"],
+[class*="text-[#ccff00]"],
+.text-brand,
+.text-neon {
+  color: #CCFF00 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 0 1px rgba(0, 0, 0, 0.9) !important;
+}
+
+/* Make sure that any SVG icon rendering in neon matches the dark drop shadow contrast */
+.text-\[\#CCFF00\] svg,
+.text-\[\#ccff00\] svg,
+[class*="text-[#CCFF00]"] svg,
+[class*="text-[#ccff00]"] svg,
+.text-brand svg,
+.text-neon svg {
+  filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.95)) !important;
+}
+
+/* Ensure that any neon/brand background or glowing panel uses deep black, bold letters and icons */
+.bg-\[\#CCFF00\],
+.bg-\[\#ccff00\],
+[class*="bg-[#CCFF00]"],
+[class*="bg-[#ccff00]"],
+.bg-brand,
+.bg-neon,
+[class*="bg-brand"],
+[class*="bg-neon"] {
+  background-color: #CCFF00 !important;
+  color: #000000 !important;
+}
+
+/* Force everything (links, spans, paragraphs, icons, child elements) inside a neon bg to be 100% solid black */
+.bg-\[\#CCFF00\] *,
+.bg-\[\#ccff00\] *,
+[class*="bg-[#CCFF00]"] *,
+[class*="bg-[#ccff00]"] *,
+.bg-brand *,
+.bg-neon *,
+[class*="bg-brand"] *,
+[class*="bg-neon"] * {
+  color: #000000 !important;
+}
+
+/* Ensure that any neon-backgrounded button or container with active background overrides has pure high-contrast black text */
+button[class*="bg-amber-"] p,
+button[class*="bg-amber-"] span,
+button[class*="bg-amber-"] h1,
+button[class*="bg-amber-"] h2,
+button[class*="bg-amber-"] h3,
+button[class*="bg-amber-"] h4,
+button[class*="bg-amber-"] h5,
+button[class*="bg-amber-"] h6,
+button[class*="bg-amber-"] td,
+button[class*="bg-amber-"] th,
+button[class*="bg-amber-"] [class*="text-slate-"],
+button[class*="bg-amber-"] [class*="text-zinc-"],
+button[class*="bg-amber-"] [class*="text-[#"] {
+  color: #000000 !important;
+}
+
+/* SVGs inside neon backgrounds should also be pure black */
+.bg-\[\#CCFF00\] svg,
+.bg-\[\#ccff00\] svg,
+[class*="bg-[#CCFF00]"] svg,
+[class*="bg-[#ccff00]"] svg,
+.bg-brand svg,
+.bg-neon svg,
+[class*="bg-brand"] svg,
+[class*="bg-neon"] svg {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
+
+/* Non-contrast colors on dark elements fixed */
+.text-indigo-600, 
+.text-indigo-700, 
+.text-indigo-800,
+.text-indigo-500 {
+  color: #818CF8 !important; /* Readable light indigo */
+}
+
+.text-violet-600, 
+.text-violet-750,
+.text-violet-700,
+.text-violet-800 {
+  color: #C084FC !important; /* Readable light purple */
+}
+
+.text-emerald-600, 
+.text-emerald-700, 
+.text-emerald-800,
+.text-teal-600, 
+.text-teal-750 {
+  color: #34D399 !important; /* Readable emerald */
+}
+
+.text-orange-600, 
+.text-orange-700 {
+  color: #FB923C !important; /* Readable orange */
+}
+
+/* Button & gradient transformations mapping to neon block style */
+button[class*="bg-amber-"],
+button[class*="from-amber-"],
+.bg-gradient-to-r.from-amber-200 {
+  background-image: none !important;
+  background-color: #CCFF00 !important;
+  color: #000000 !important;
+  font-weight: 800 !important;
+}
+
+/* Style inputs, forms, and technical select grids */
+input, select, textarea {
+  background-color: #070707 !important;
+  border: 1px solid #222222 !important;
+  color: #FFFFFF !important;
+  border-radius: 8px !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: #CCFF00 !important;
+  outline: none !important;
+}
+
+/* Status Cards & Decorative Overrides for Dark Scheme */
+div[class*="bg-rose-"],
+div[class*="bg-red-"] {
+  background-color: #2D0F14 !important;
+  color: #FDA4AF !important;
+  border-color: #4C0519 !important;
+}
+[class*="text-rose-"],
+[class*="text-red-"] {
+  color: #FDA4AF !important;
+}
+
+div[class*="bg-emerald-"],
+div[class*="bg-green-"] {
+  background-color: #062F21 !important;
+  color: #6EE7B7 !important;
+  border-color: #064E3B !important;
+}
+[class*="text-emerald-"],
+[class*="text-green-"] {
+  color: #6EE7B7 !important;
+}
+
+div[class*="bg-violet-"] {
+  background-color: #1E1235 !important;
+  color: #D8B4FE !important;
+  border-color: #3B0764 !important;
+}
+[class*="text-violet-"] {
+  color: #D8B4FE !important;
+}
+
+/* Table customizations */
+table, thead, tbody, tr, th, td {
+  border-color: #222222 !important;
+  background-color: transparent !important;
+}
+
+th {
+  color: #CCFF00 !important;
+  text-transform: uppercase !important;
+  font-family: var(--font-display) !important;
+  font-size: 11px !important;
+  letter-spacing: 0.1em !important;
+  font-weight: 800 !important;
+}
+
+td {
+  color: #E4E4E7 !important;
+}
+
+/* Secondary interactive highlights */
+.hover\:bg-slate-50:hover, 
+.hover\:bg-amber-50\/20:hover {
+  background-color: #1a1a1a !important;
+}
+
+/* ==========================================================
+   PRINT MEDIA CUSTOM INVOICE OVERRIDES
+   ========================================================== */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+  }
+  
+  /* Hide everything default-screen in navigation or layout container */
+  aside,
+  nav,
+  button,
+  header,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  /* Unset grid structures & layout offsets */
+  .ml-64,
+  div[class*="ml-64"] {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    background: #FFFFFF !important;
+  }
+
+  /* Target exact invoice space to reveal print layout */
+  #print-invoice-area {
+    display: block !important;
+    visibility: visible !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    padding: 3rem !important;
+    border: none !important;
+  }
+
+  /* Force monochrome items and visible text colors for printing */
+  #print-invoice-area * {
+    visibility: visible !important;
+    color: #000000 !important;
+    background-color: transparent !important;
+    border-color: #D4D4D8 !important;
+  }
+}
+
